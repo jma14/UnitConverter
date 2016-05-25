@@ -13,20 +13,20 @@ public class LengthConverter {
 	private double factor;
 	
 	public LengthConverter(String unit) {
-		switch (unit.toUpperCase()) {
-			case "IN" :		factor = INCH_TO_METER;
-							break;
-			case "FOOT" :	factor = FOOT_TO_METER;
-							break;
-			case "MILE" :	factor = MILE_TO_METER;
-							break;
-			case "MM" :		factor = MM_TO_METER;
-							break;
-			case "CM" :		factor = CM_TO_METER;
-							break;
-			case "KM" :		factor = KM_TO_METER;
-							break;
-			case "YARD" :	factor = YARD_TO_METER;
+		switch (unit) {
+		case "IN" :		factor = INCH_TO_METER;
+						break;
+		case "FOOT" :	factor = FOOT_TO_METER;
+						break;
+		case "MILE" :	factor = MILE_TO_METER;
+						break;
+		case "MM" :		factor = MM_TO_METER;
+						break;
+		case "CM" :		factor = CM_TO_METER;
+						break;
+		case "KM" :		factor = KM_TO_METER;
+						break;
+		case "YARD" :	factor = YARD_TO_METER;
 						break;
 		}
 	}
