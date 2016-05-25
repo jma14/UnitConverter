@@ -1,65 +1,35 @@
 package conversion;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
-public class LengthConverter implements Converter {
-
-	final private double INCH_TO_METER = 0.0254;
-	final private double FOOT_TO_METER = 0.3048;
-	final private double MILE_TO_METER = 1609.344;
-	final private double MM_TO_METER = 0.001;
-	final private double CM_TO_METER = 0.01;
-	final private double KM_TO_METER = 1000;
-	final private double YARD_TO_METER = 0.9144;
-	final private double METER_TO_METER = 1;
-	private static final String[] LENGTH_UNIT_OPTIONS = {"IN","FOOT","MILE","MM","CM","KM","YARD","M"};
+public class LengthConverter implements Converter{
 	
-	private double factor;
+	final private Map<String,Double> Length_Factors = new HashMap<String,Double>();
 	
 	private String unit;
 	
 	public LengthConverter(String TO_FROM) {
+		Length_Factors.put("IN", 0.0254);
+		Length_Factors.put("FT", 0.3048);
+		Length_Factors.put("MILE", 1609.344);
+		Length_Factors.put("MM", 0.001);
+		Length_Factors.put("CM", 0.01);
+		Length_Factors.put("KM", 1000.0);
+		Length_Factors.put("YD", 0.9144);
+		Length_Factors.put("M", 1.0);
 		getInput(TO_FROM);
-		setFactor();
 	}
 	
 	public String getUnit() {
 		return unit;
 	}
 	
-	public void setFactor() {
-		
-		switch (unit) {
-		case "IN" :		factor = INCH_TO_METER;
-						break;
-		case "FOOT" :	factor = FOOT_TO_METER;
-						break;
-		case "MILE" :	factor = MILE_TO_METER;
-						break;
-		case "MM" :		factor = MM_TO_METER;
-						break;
-		case "CM" :		factor = CM_TO_METER;
-						break;
-		case "KM" :		factor = KM_TO_METER;
-						break;
-		case "YARD" :	factor = YARD_TO_METER;
-						break;
-		case "M" :		factor = METER_TO_METER;
-						break;
-		}
-	}
-	
-	public double getFactor() {
-		return factor;
-	}
-	
 	public double toCommonUnit(double measurement) {
-		return (measurement * factor);
+		return (measurement * Length_Factors.get(unit));
 	}
 	
 	public double fromCommonUnit(double measurement) {
-		return (measurement / factor);
+		return (measurement / Length_Factors.get(unit));
 	}
 	
 	public void getInput(String TO_FROM) {
@@ -68,9 +38,13 @@ public class LengthConverter implements Converter {
 		unit = in.nextLine();
 		setUnit();
 		
-		while(!Arrays.asList(LENGTH_UNIT_OPTIONS).contains(unit)) {
-			System.out.println("Invalid Unit. Available options are " + Arrays.toString(LENGTH_UNIT_OPTIONS));
-			System.out.print("Convert " + TO_FROM + ": ");
+		while(!Length_Factors.containsKey(unit)) {
+			System.out.print("Invalid Unit. Available options are ");
+			for (Map.Entry<String,Double> entry : Length_Factors.entrySet()) {
+				  String key = entry.getKey();
+				  System.out.print(key + " ");
+			}
+			System.out.print("\nConvert " + TO_FROM + ": ");
 			unit = in.nextLine();
 			setUnit();
 		}
@@ -85,7 +59,7 @@ public class LengthConverter implements Converter {
 			break;
 		case "FEET" :
 		case "FOOT" :
-			unit = "FOOT";
+			unit = "FT";
 			break;
 		case "MI" :
 		case "MILES" :
