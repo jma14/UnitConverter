@@ -29,7 +29,7 @@ public class ConversionCalculator {
 		double meters = from.toMeters(val);
 		double converted = to.fromMeters(meters);
 		
-		System.out.print("The answer is: " + converted);
+		System.out.print(val + " " + from.getUnit() + " equals " + converted + " " + to.getUnit());
 
 	}
 	

@@ -16,9 +16,19 @@ public class LengthConverter {
 	
 	private double factor;
 	
+	private String unit;
+	
 	public LengthConverter(String TO_FROM) {
-		String unit = getInput(TO_FROM);
+		getInput(TO_FROM);
 		setFactor(unit);
+	}
+	
+	public void setUnit(String inputUnit) {
+		unit = inputUnit;
+	}
+	
+	public String getUnit() {
+		return unit;
 	}
 	
 	public void setFactor(String unit) {
@@ -55,7 +65,7 @@ public class LengthConverter {
 		return (measurement / factor);
 	}
 	
-	public static String getInput(String TO_FROM) {
+	public void getInput(String TO_FROM) {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Convert " + TO_FROM + ": ");
 		String inputUnit = in.nextLine();
@@ -67,7 +77,7 @@ public class LengthConverter {
 			inputUnit = in.nextLine();
 			inputUnit = fixUnit(inputUnit);
 		}
-		return inputUnit;
+		setUnit(inputUnit);
 	}
 	
 	public static String fixUnit(String unit) {
