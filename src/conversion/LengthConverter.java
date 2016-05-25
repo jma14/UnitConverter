@@ -3,7 +3,7 @@ package conversion;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class LengthConverter {
+public class LengthConverter implements Converter {
 
 	final private double INCH_TO_METER = 0.0254;
 	final private double FOOT_TO_METER = 0.3048;
@@ -12,6 +12,7 @@ public class LengthConverter {
 	final private double CM_TO_METER = 0.01;
 	final private double KM_TO_METER = 1000;
 	final private double YARD_TO_METER = 0.9144;
+	final private double METER_TO_METER = 1;
 	private static final String[] LENGTH_UNIT_OPTIONS = {"IN","FOOT","MILE","MM","CM","KM","YARD","M"};
 	
 	private double factor;
@@ -20,18 +21,14 @@ public class LengthConverter {
 	
 	public LengthConverter(String TO_FROM) {
 		getInput(TO_FROM);
-		setFactor(unit);
-	}
-	
-	public void setUnit(String inputUnit) {
-		unit = inputUnit;
+		setFactor();
 	}
 	
 	public String getUnit() {
 		return unit;
 	}
 	
-	public void setFactor(String unit) {
+	public void setFactor() {
 		
 		switch (unit) {
 		case "IN" :		factor = INCH_TO_METER;
@@ -48,7 +45,7 @@ public class LengthConverter {
 						break;
 		case "YARD" :	factor = YARD_TO_METER;
 						break;
-		case "M" :		factor = 1;
+		case "M" :		factor = METER_TO_METER;
 						break;
 		}
 	}
@@ -57,58 +54,64 @@ public class LengthConverter {
 		return factor;
 	}
 	
-	public double toMeters(double measurement) {
+	public double toCommonUnit(double measurement) {
 		return (measurement * factor);
 	}
 	
-	public double fromMeters(double measurement) {
+	public double fromCommonUnit(double measurement) {
 		return (measurement / factor);
 	}
 	
 	public void getInput(String TO_FROM) {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Convert " + TO_FROM + ": ");
-		String inputUnit = in.nextLine();
-		inputUnit = fixUnit(inputUnit);
+		unit = in.nextLine();
+		setUnit();
 		
-		while(!Arrays.asList(LENGTH_UNIT_OPTIONS).contains(inputUnit)) {
+		while(!Arrays.asList(LENGTH_UNIT_OPTIONS).contains(unit)) {
 			System.out.println("Invalid Unit. Available options are " + Arrays.toString(LENGTH_UNIT_OPTIONS));
 			System.out.print("Convert " + TO_FROM + ": ");
-			inputUnit = in.nextLine();
-			inputUnit = fixUnit(inputUnit);
+			unit = in.nextLine();
+			setUnit();
 		}
-		setUnit(inputUnit);
 	}
 	
-	public static String fixUnit(String unit) {
+	public void setUnit() {
 		unit = unit.toUpperCase();
 		switch(unit) {
 		case "INCH" :
 		case "INCHES" :
-			return "IN";
+			unit = "IN";
+			break;
 		case "FEET" :
 		case "FOOT" :
-			return "FOOT";
+			unit = "FOOT";
+			break;
 		case "MI" :
 		case "MILES" :
-			return "MILE";
+			unit = "MILE";
+			break;
 		case "MILIMETER" :
 		case "MILIMETERS" :
-			return "MM";
+			unit = "MM";
+			break;
 		case "CENTIMETER" :
 		case "CENTIMETERS" :
-			return "CM";
+			unit = "CM";
+			break;
 		case "KILOMETER" :
 		case "KILOMETERS" :
-			return "KM" ;
+			unit = "KM" ;
+			break;
 		case "YD" :
 		case "YARDS" :
-			return "YARD";
+			unit = "YARD";
+			break;
 		case "METER" :
 		case "METERS" :
-			return "M";
+			unit = "M";
+			break;
 		}
-		return unit;
 	}
 
 }
