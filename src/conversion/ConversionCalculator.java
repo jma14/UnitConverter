@@ -15,12 +15,18 @@ public class ConversionCalculator {
 		double converted;
 		
 		
-		do {
+		/*do {
 			if(type.equals("error")) System.out.println("Invalid Unit Type.  Options are " + Arrays.toString(UNIT_TYPES));
 			System.out.print("Would you like to make a length conversion or a weight conversion? ");
 			String Length_Or_Weight = in.nextLine();
 			type = checkInput(Length_Or_Weight);
 		}while((type.equals("error")));
+		*/
+		
+		System.out.print("First Unit: ");
+		String firstUnit = in.nextLine();
+		Converter currentUnit = new Converter(firstUnit);
+		System.out.print(currentUnit.getUnit());
 		
 		if(type.equals("LENGTH")) {
 			from = new LengthConverter("from");
