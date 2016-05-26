@@ -9,6 +9,11 @@ public class Converter {
 	final private Map<String,Double> factors = new HashMap<String,Double>();
 	
 	public Converter(String inputUnit) {
+		setFactors();
+		setUnit(inputUnit);
+	}
+	
+	public void setFactors() {
 		factors.put("IN", 0.0254);
 		factors.put("FT", 0.3048);
 		factors.put("MILE", 1609.344);
@@ -22,7 +27,10 @@ public class Converter {
 		factors.put("G", 0.001);
 		factors.put("MG", 0.000001);
 		factors.put("KG", 1.0);
-		setUnit(inputUnit);
+	}
+	
+	public Map getFactors() {
+		return factors;
 	}
 	
 	public double toCommonUnit(double measurement) {

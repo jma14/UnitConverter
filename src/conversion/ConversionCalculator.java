@@ -15,21 +15,23 @@ public class ConversionCalculator {
 		double converted;
 		
 		
-		/*do {
-			if(type.equals("error")) System.out.println("Invalid Unit Type.  Options are " + Arrays.toString(UNIT_TYPES));
-			System.out.print("Would you like to make a length conversion or a weight conversion? ");
-			String Length_Or_Weight = in.nextLine();
-			type = checkInput(Length_Or_Weight);
-		}while((type.equals("error")));
-		*/
+		String fromUnit = "";
+		do {
+			if(fromUnit!="") System.out.println("Invalid entry.");
+			System.out.print("Convert from: ");
+			fromUnit = in.next();
+			from = new Converter(fromUnit);
+		}while(!from.getFactors().containsKey(from.getUnit()));
 		
-		System.out.print("Convert from: ");
-		String fromUnit = in.nextLine();
-		from = new Converter(fromUnit);
 		
-		System.out.print("Convert to: ");
-		String toUnit = in.nextLine();
-		to = new Converter(toUnit);
+		String toUnit = "";
+		do {
+			if(toUnit!="") System.out.println("Invalid entry.");
+			System.out.print("Convert to: ");
+			toUnit = in.next();
+			to = new Converter(toUnit);
+		}while(!to.getFactors().containsKey(to.getUnit()));
+		
 		
 		double val;
 		while (true) {
