@@ -23,18 +23,20 @@ public class ConversionCalculator {
 		}while((type.equals("error")));
 		*/
 		
-		System.out.print("First Unit: ");
-		String firstUnit = in.nextLine();
-		Converter currentUnit = new Converter(firstUnit);
-		System.out.print(currentUnit.getUnit());
+		System.out.print("Convert from: ");
+		String fromUnit = in.nextLine();
+		from = new Converter(fromUnit);
+		//System.out.print(fromConverter.getUnit() + fromConverter.getType());
 		
-		if(type.equals("LENGTH")) {
-			from = new LengthConverter("from");
-			to = new LengthConverter("to");
-		} else {
-			from = new WeightConverter("from");
-			to = new WeightConverter("to");
-		}
+		
+
+		//from = new Converter("from");
+		//to = new Converter("to");
+
+		
+		System.out.print("Convert to: ");
+		String toUnit = in.nextLine();
+		to = new Converter(toUnit);
 		
 		double val;
 		while (true) {
@@ -46,13 +48,11 @@ public class ConversionCalculator {
 		        System.out.println("Invalid input.  Please enter a valid number.");
 		    }
 		}
-		if(type.equals("LENGTH")) {
-			double meters = from.toCommonUnit(val);
-			converted = to.fromCommonUnit(meters);
-		} else {
-			double kilometers = from.toCommonUnit(val);
-			converted = to.fromCommonUnit(kilometers);
-		}
+	
+		double commonUnit = from.toCommonUnit(val);
+		converted = to.fromCommonUnit(commonUnit);
+		
+
 		
 		System.out.print(val + " " + from.getUnit() + " equals " + converted + " " + to.getUnit());
 
