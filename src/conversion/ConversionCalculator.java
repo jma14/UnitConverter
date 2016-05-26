@@ -26,13 +26,6 @@ public class ConversionCalculator {
 		System.out.print("Convert from: ");
 		String fromUnit = in.nextLine();
 		from = new Converter(fromUnit);
-		//System.out.print(fromConverter.getUnit() + fromConverter.getType());
-		
-		
-
-		//from = new Converter("from");
-		//to = new Converter("to");
-
 		
 		System.out.print("Convert to: ");
 		String toUnit = in.nextLine();
