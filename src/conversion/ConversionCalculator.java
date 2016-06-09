@@ -30,7 +30,7 @@ public class ConversionCalculator {
 			System.out.print("Convert to: ");
 			toUnit = in.next();
 			to = new Converter(toUnit);
-		}while(!to.getFactors().containsKey(to.getUnit()));
+		}while(!to.getFactors().containsKey(to.getUnit()) || !to.getType().equals(from.getType()));
 		
 		
 		double val;
