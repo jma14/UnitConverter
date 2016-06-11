@@ -26,7 +26,7 @@ public class ConversionCalculator {
 		String userInput;
 		//do {
 			System.out.println("Whatcha wanna do?");
-			userInput = in.next();
+			userInput = in.nextLine();
 			String num = "";
 			String unit = "";
 			while(userInput.length() > 0) {
@@ -36,9 +36,12 @@ public class ConversionCalculator {
 				} else if(Character.isLetter(nextChar)) {
 					unit += nextChar;
 				} else if(isSymbol(nextChar)){
+					System.out.print(isSymbol(nextChar) + " " + nextChar + " " + isTop);
+					if(nextChar != '/') isTop = true;
 					operator.add(nextChar);
 					nums = Double.parseDouble(num);
 					from = new Converter(unit);
+					System.out.print(" " + isTop);
 					if(isTop) {
 						topNums.add(from.toCommonUnit(nums));
 						topUnits.add(unit);
@@ -48,6 +51,7 @@ public class ConversionCalculator {
 						bottomUnits.add(unit);
 						if(nextChar == '/') isTop = true;
 					}
+					System.out.println(" " + isTop);
 					num = "";
 					unit = "";
 				}
@@ -67,11 +71,25 @@ public class ConversionCalculator {
 				bottomUnits.add(unit);
 			}
 			
-			
+			double total = 0;
 			System.out.println(topNums.toString() + " " + topUnits.toString());
 			System.out.println(bottomNums.toString() + " " + bottomUnits.toString());
-			String outUnit = from.getType().equals("LENGTH") ? "m" : "lb";
-			System.out.print(topNums.remove() / bottomNums.remove() + " " + outUnit);
+			while(!topNums.isEmpty()) {
+				String outUnit = from.getType().equals("LENGTH") ? "m" : "lb";
+				if(!operator.isEmpty()) {
+					char checkOperator = operator.remove();
+					if(checkOperator == '+') {
+						total += topNums.remove() / bottomNums.remove() + topNums.remove() / bottomNums.remove();
+					} else if(checkOperator == '-') {
+						total -= topNums.remove() / bottomNums.remove() - topNums.remove() / bottomNums.remove();
+					} else if(checkOperator == '*') {
+						total *= topNums.remove() / bottomNums.remove() * topNums.remove() / bottomNums.remove();
+					} else {
+						total /= topNums.remove() / bottomNums.remove() / topNums.remove() / bottomNums.remove();
+					}
+				}
+				System.out.println(total + " " + outUnit);
+			}
 		//}
 		/*nums = Double.parseDouble(num);
 		from = new Converter(unit);
