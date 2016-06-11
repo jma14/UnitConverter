@@ -1,21 +1,84 @@
 package conversion;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class ConversionCalculator {
 	
 	private static final String[] UNIT_TYPES = {"LENGTH","WEIGHT"};
+	private static boolean isTop = true;
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		String type = "";
-		Converter from;
+		Converter from = null;
 		Converter to;
 		double converted;
+		Queue<String> topUnits = new LinkedList<String>();
+		Queue<String> bottomUnits = new LinkedList<String>();
+		Queue<Double> topNums = new LinkedList<Double>();
+		Queue<Double> bottomNums=new LinkedList<Double>();
+		Queue<Character> operator = new LinkedList<Character>();
+		double nums = 0;
+		String userInput;
+		//do {
+			System.out.println("Whatcha wanna do?");
+			userInput = in.next();
+			String num = "";
+			String unit = "";
+			while(userInput.length() > 0) {
+				char nextChar = userInput.charAt(0);
+				if(Character.isDigit(nextChar) || nextChar == '.') {
+					num += nextChar;
+				} else if(Character.isLetter(nextChar)) {
+					unit += nextChar;
+				} else if(isSymbol(nextChar)){
+					operator.add(nextChar);
+					nums = Double.parseDouble(num);
+					from = new Converter(unit);
+					if(isTop) {
+						topNums.add(from.toCommonUnit(nums));
+						topUnits.add(unit);
+						if(nextChar == '/') isTop = false;
+					} else {
+						bottomNums.add(from.toCommonUnit(nums));
+						bottomUnits.add(unit);
+						if(nextChar == '/') isTop = true;
+					}
+					num = "";
+					unit = "";
+				}
+				if(userInput.length() >= 1) {
+					userInput = userInput.substring(1);
+				} else {
+					userInput = "";
+				}
+			}
+			nums = Double.parseDouble(num);
+			from = new Converter(unit);
+			if(isTop) {
+				topNums.add(from.toCommonUnit(nums));
+				topUnits.add(unit);
+			} else {
+				bottomNums.add(from.toCommonUnit(nums));
+				bottomUnits.add(unit);
+			}
+			
+			
+			System.out.println(topNums.toString() + " " + topUnits.toString());
+			System.out.println(bottomNums.toString() + " " + bottomUnits.toString());
+			String outUnit = from.getType().equals("LENGTH") ? "m" : "lb";
+			System.out.print(topNums.remove() / bottomNums.remove() + " " + outUnit);
+		//}
+		/*nums = Double.parseDouble(num);
+		from = new Converter(unit);
+		System.out.println(from.getType());*/
+		//to = new Converter("mm");
 		
-		
-		String fromUnit = "";
+		/*String fromUnit = "";
 		do {
 			if(fromUnit!="") System.out.println("Invalid entry.");
 			System.out.print("Convert from: ");
@@ -43,13 +106,14 @@ public class ConversionCalculator {
 		        System.out.println("Invalid input.  Please enter a valid number.");
 		    }
 		}
+		*/
 	
-		double commonUnit = from.toCommonUnit(val);
-		converted = to.fromCommonUnit(commonUnit);
+		//double commonUnit = from.toCommonUnit(nums);
+		//converted = to.fromCommonUnit(commonUnit);
 		
 
 		
-		System.out.print(val + " " + from.getUnit() + " equals " + converted + " " + to.getUnit());
+		//System.out.print(nums + " " + from.getUnit() + " equals " + converted + " " + to.getUnit());
 
 	}
 	
@@ -66,6 +130,16 @@ public class ConversionCalculator {
 		default :
 			return "error";
 		}
+	}
+	
+	public static boolean isSymbol(char checkChar) {
+		char[] operators = {'/','+','-','*'};
+		for(char c : operators) {
+			if(checkChar == c) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 
